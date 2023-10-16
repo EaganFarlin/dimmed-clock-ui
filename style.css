@@ -54,10 +54,10 @@ body {
 
 .sun {
   background-color: #ff0;
-  box-shadow: 0 0 10px 5px #ff0;
+  box-shadow: 0 0 100px 50px #ff0;
 }
 
 .moon {
   background-color: #909090;
-  box-shadow: 0 0 10px 5px #909090;
+  box-shadow: 0 0 100px 50px #909090;
 }
