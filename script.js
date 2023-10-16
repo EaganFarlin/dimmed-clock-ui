@@ -7,26 +7,49 @@ function logTime() {
   let currentMillisecond = currentTime.getMilliseconds();
   let currentMeridiem = currentHour >= 12 ? "PM" : "AM";
 
+  let currentTimeInSecs =
+    currentHour * 60 ** 2 + currentMinute * 60 + currentSecond;
+  let currentTimeInHours = currentTimeInSecs / 60 ** 2;
+  console.log(currentTimeInHours);
+
   hourDisp.textContent = currentHourInTwelveHourFormat;
   meridiemDisp.textContent = currentMeridiem;
-  minAndSecDisp.textContent = `${currentMinute}:${currentSecond}`;
-  msDisp.textContent = currentMillisecond;
+  minAndSecDisp.textContent = `${formatTimeLengthTwo(
+    currentMinute
+  )}:${formatTimeLengthTwo(currentSecond)}`;
+  msDisp.textContent = formatTimeLengthThree(currentMillisecond);
 
   if (currentHour >= 6 && currentHour < 18) {
-    dayAndNightDisp.style.bottom =
+    sunAndMoonDisp.style.bottom =
       currentHour > 12
-        ? (currentHourInTwelveHourFormat - 6) * -1 - 19 + "vw"
-        : currentHourInTwelveHourFormat - 25 + "vw";
-    dayAndNightDisp.classList.remove("moon");
-    dayAndNightDisp.classList.add("sun");
+        ? ((currentTimeInHours - 12 - 6) * -1 - 19) * 10 + "px"
+        : (currentTimeInHours - 25) * 10 + "px";
+    sunAndMoonDisp.classList.remove("moon");
+    sunAndMoonDisp.classList.add("sun");
   } else {
-    dayAndNightDisp.style.bottom =
+    sunAndMoonDisp.style.bottom =
       currentHour > 0 && currentHour < 6
-        ? (currentHourInTwelveHourFormat - 6) * -1 - 19 + "vw"
-        : currentHourInTwelveHourFormat - 25 + "vw";
-    dayAndNightDisp.classList.remove("sun");
-    dayAndNightDisp.classList.add("moon");
+        ? ((currentTimeInHours - 6) * -1 - 19) * 10 + "px"
+        : (currentTimeInHours - 12 - 25) * 10 + "px";
+    sunAndMoonDisp.classList.remove("sun");
+    sunAndMoonDisp.classList.add("moon");
   }
+}
+
+function formatTimeLengthTwo(input) {
+  if (input < 10) {
+    return "0" + input;
+  }
+  return input;
+}
+
+function formatTimeLengthThree(input) {
+  if (input < 10) {
+    return "00" + input;
+  } else if (input < 100) {
+    return "0" + input;
+  }
+  return input;
 }
 
 setInterval(logTime, 1);

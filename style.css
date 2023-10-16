@@ -22,6 +22,7 @@ body {
 
 #clockUI {
   font-family: "Nova Mono", monospace;
+
   text-align: center;
   line-height: 1;
   position: absolute;
@@ -35,6 +36,10 @@ body {
   font-size: calc(5vw + 10vh);
 }
 
+#meridiemDisp {
+  font-size: calc(1.25vw + 2.5vh);
+}
+
 #minAndSecDisp {
   font-size: calc(2.5vw + 5vh);
 }
@@ -43,7 +48,7 @@ body {
   font-size: calc(1.25vw + 2.5vh);
 }
 
-#dayAndNightDisp {
+#sunAndMoonDisp {
   width: calc(10vw + 20vh);
   height: calc(10vw + 20vh);
   border-radius: 100%;
