@@ -1,0 +1,63 @@
+/* Google Fonts - Pixelify Sans */
+@import url("https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  color: #32fbe2;
+  background-image: linear-gradient(
+    #17082e 0%,
+    #1a0933 7%,
+    #1a0933 80%,
+    #0c1f4c 100%
+  );
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+#clockUI {
+  font-family: "Nova Mono", monospace;
+  text-align: center;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+#hourDisp {
+  font-size: 10vw;
+}
+
+#minAndSecDisp {
+  font-size: 5vw;
+}
+
+#msDisp {
+  font-size: 2.5vw;
+}
+
+#dayAndNightDisp {
+  width: 20vw;
+  height: 20vw;
+  border-radius: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sun {
+  background-color: #ff0;
+  box-shadow: 0 0 10px 5px #ff0;
+}
+
+.moon {
+  background-color: #909090;
+  box-shadow: 0 0 10px 5px #909090;
+}
