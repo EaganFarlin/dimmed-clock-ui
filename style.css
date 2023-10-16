@@ -32,20 +32,20 @@ body {
 }
 
 #hourDisp {
-  font-size: 10vw;
+  font-size: calc(5vw + 10vh);
 }
 
 #minAndSecDisp {
-  font-size: 5vw;
+  font-size: calc(2.5vw + 5vh);
 }
 
 #msDisp {
-  font-size: 2.5vw;
+  font-size: calc(1.25vw + 2.5vh);
 }
 
 #dayAndNightDisp {
-  width: 20vw;
-  height: 20vw;
+  width: calc(10vw + 20vh);
+  height: calc(10vw + 20vh);
   border-radius: 100%;
   position: absolute;
   left: 50%;
