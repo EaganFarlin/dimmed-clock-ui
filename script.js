@@ -29,4 +29,4 @@ function logTime() {
   }
 }
 
-setInterval(logTime, 1000);
+setInterval(logTime, 1);
