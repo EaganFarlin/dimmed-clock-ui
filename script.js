@@ -1,23 +1,29 @@
-function logTime() {
-  let currentTime = new Date();
-  let currentHour = currentTime.getHours();
-  let currentHourInTwelveHourFormat = currentHour % 12 || 12;
-  let currentMinute = currentTime.getMinutes();
-  let currentSecond = currentTime.getSeconds();
-  let currentMillisecond = currentTime.getMilliseconds();
-  let currentMeridiem = currentHour >= 12 ? "PM" : "AM";
+arrowKeyDown = false;
 
-  let currentTimeInSecs =
+function logTime() {
+  if (arrowKeyDown === false) {
+    getCurrentTime();
+  }
+
+  currentHourInTwelveHourFormat = currentHour % 12 || 12;
+  currentMeridiem = currentHour >= 12 ? "PM" : "AM";
+
+  currentTimeInSecs =
     currentHour * 60 ** 2 + currentMinute * 60 + currentSecond;
-  let currentTimeInHours = currentTimeInSecs / 60 ** 2;
-  console.log(currentTimeInHours);
+  currentTimeInHours = currentTimeInSecs / 60 ** 2;
 
   hourDisp.textContent = currentHourInTwelveHourFormat;
   meridiemDisp.textContent = currentMeridiem;
-  minAndSecDisp.textContent = `${formatTimeLengthTwo(
-    currentMinute
-  )}:${formatTimeLengthTwo(currentSecond)}`;
-  msDisp.textContent = formatTimeLengthThree(currentMillisecond);
+
+  if (!arrowKeyDown) {
+    minAndSecDisp.textContent = `${formatTimeLengthTwo(
+      currentMinute
+    )}:${formatTimeLengthTwo(currentSecond)}`;
+    msDisp.textContent = formatTimeLengthThree(currentMs);
+  } else {
+    minAndSecDisp.textContent = `${formatTimeLengthTwo(currentMinute)}:00`;
+    msDisp.textContent = "000";
+  }
 
   if (currentHour >= 6 && currentHour < 18) {
     sunAndMoonDisp.style.bottom =
@@ -28,12 +34,20 @@ function logTime() {
     sunAndMoonDisp.classList.add("sun");
   } else {
     sunAndMoonDisp.style.bottom =
-      currentHour > 0 && currentHour < 6
+      currentHour >= 0 && currentHour < 6
         ? ((currentTimeInHours - 6) * -1 - 19) * 10 + "px"
         : (currentTimeInHours - 12 - 25) * 10 + "px";
     sunAndMoonDisp.classList.remove("sun");
     sunAndMoonDisp.classList.add("moon");
   }
+}
+
+function getCurrentTime() {
+  currentTime = new Date();
+  currentHour = currentTime.getHours();
+  currentMinute = currentTime.getMinutes();
+  currentSecond = currentTime.getSeconds();
+  currentMs = currentTime.getMilliseconds();
 }
 
 function formatTimeLengthTwo(input) {
@@ -51,5 +65,31 @@ function formatTimeLengthThree(input) {
   }
   return input;
 }
+
+window.addEventListener("keydown", (e) => {
+  currentSecond = 0;
+  currentMs = 0;
+  if (e.key === "ArrowUp") {
+    arrowKeyDown = true;
+    if (currentHour >= 24) {
+      currentHour = 0;
+    } else if (currentMinute >= 59) {
+      currentHour++;
+      currentMinute = 0;
+    } else {
+      currentMinute++;
+    }
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowUp") {
+    getCurrentTime();
+
+    setTimeout(() => {
+      arrowKeyDown = false;
+    }, 1000);
+  }
+});
 
 setInterval(logTime, 1);
