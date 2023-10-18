@@ -17,10 +17,15 @@ function logTime() {
   hourDisp.textContent = currentHourInTwelveHourFormat;
   meridiemDisp.textContent = currentMeridiem;
 
-  minAndSecDisp.textContent = `${formatTimeLengthTwo(
-    currentMinute
-  )}:${formatTimeLengthTwo(currentSecond)}`;
-  msDisp.textContent = formatTimeLengthThree(currentMs);
+  if (!arrowKeyDown) {
+    minAndSecDisp.textContent = `${formatTimeLengthTwo(
+      currentMinute
+    )}:${formatTimeLengthTwo(currentSecond)}`;
+    msDisp.textContent = formatTimeLengthThree(currentMs);
+  } else {
+    minAndSecDisp.textContent = `${formatTimeLengthTwo(currentMinute)}:00`;
+    msDisp.textContent = "000";
+  }
 
   if (currentHour >= 6 && currentHour < 18) {
     sunAndMoonDisp.style.bottom =
@@ -84,44 +89,24 @@ window.addEventListener("keyup", (e) => {
   if (e.key === "ArrowUp") {
     decreasingTime = setInterval(() => {
       if (
-        arrowKeyDown &&
-        (currentHour !== new Date().getHours() ||
-          currentMinute !== new Date().getHours() ||
-          currentSecond !== new Date().getSeconds() ||
-          currentMs !== new Date().getMilliseconds())
+        currentHour !== new Date().getHours() ||
+        currentMinute !== new Date().getHours()
       ) {
-        if (
-          (currentHour !== new Date().getHours() &&
-            currentMinute > new Date().getMinutes()) ||
-          (currentHour > 0 &&
-            currentHour !== new Date().getHours() + 1 &&
-            currentMinute < new Date().getMinutes()) ||
-          (currentHour === 0 &&
-            new Date().getHours() + 1 !== 24 &&
-            currentMinute < new Date().getMinutes())
-        ) {
-          currentHour = currentHour <= 0 ? 23 : currentHour - 1;
-          console.log(currentHour, new Date().getHours() + 1);
-          console.log(currentMinute, new Date().getMinutes());
-        } else if (
-          (currentMinute !== new Date().getMinutes() &&
-            currentSecond > new Date().getSeconds()) ||
-          (currentMinute !== new Date().getMinutes() + 1 &&
-            currentSecond < new Date().getSeconds())
-        ) {
-          currentMinute = currentMinute <= 0 ? 59 : currentMinute - 1;
-        } else if (currentSecond !== new Date().getSeconds() + 1) {
-          currentSecond = currentSecond <= 0 ? 59 : currentSecond - 1;
-
-          if (currentSecond === new Date().getMinutes()) {
-            setTimeout(() => {
-              arrowKeyDown = false;
-              clearInterval(decreasingTime);
-            }, 1000);
-          }
+        if (currentHour <= 1) {
+          currentHour = 23;
+        } else if (currentMinute <= 1) {
+          currentHour--;
+          currentMinute = 59;
+        } else {
+          currentMinute--;
         }
+      } else {
+        setTimeout(() => {
+          clearInterval(decreasingTime);
+          arrowKeyDown = false;
+        }, 100);
       }
-    }, 75);
+    }, 10);
   }
 });
 
