@@ -66,6 +66,7 @@ window.addEventListener("keydown", (e) => {
   currentMs = 0;
   if (e.key === "ArrowUp") {
     arrowKeyDown = true;
+    clearInterval(decreasingTime);
     if (currentHour >= 24) {
       currentHour = 0;
     } else if (currentMinute >= 59) {
@@ -84,18 +85,16 @@ window.addEventListener("keyup", (e) => {
         currentHour !== new Date().getHours() ||
         currentMinute !== new Date().getHours()
       ) {
-        if (currentHour <= 1) {
-          currentHour = 23;
-        } else if (currentMinute <= 1) {
-          currentHour--;
+        if (currentMinute < 1) {
+          currentHour = currentHour <= 0 ? 23 : currentHour - 1;
           currentMinute = 59;
         } else {
           currentMinute--;
         }
       } else {
         setTimeout(() => {
-          clearInterval(decreasingTime);
           arrowKeyDown = false;
+          clearInterval(decreasingTime);
         }, 100);
       }
     }, 10);
