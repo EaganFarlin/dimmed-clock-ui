@@ -15,15 +15,10 @@ function logTime() {
   hourDisp.textContent = currentHourInTwelveHourFormat;
   meridiemDisp.textContent = currentMeridiem;
 
-  if (!arrowKeyDown) {
-    minAndSecDisp.textContent = `${formatTimeLengthTwo(
-      currentMinute
-    )}:${formatTimeLengthTwo(currentSecond)}`;
-    msDisp.textContent = formatTimeLengthThree(currentMs);
-  } else {
-    minAndSecDisp.textContent = `${formatTimeLengthTwo(currentMinute)}:00`;
-    msDisp.textContent = "000";
-  }
+  minAndSecDisp.textContent = `${formatTimeLengthTwo(
+    currentMinute
+  )}:${formatTimeLengthTwo(currentSecond)}`;
+  msDisp.textContent = formatTimeLengthThree(currentMs);
 
   if (currentHour >= 6 && currentHour < 18) {
     sunAndMoonDisp.style.bottom =
@@ -84,11 +79,26 @@ window.addEventListener("keydown", (e) => {
 
 window.addEventListener("keyup", (e) => {
   if (e.key === "ArrowUp") {
-    getCurrentTime();
-
-    setTimeout(() => {
-      arrowKeyDown = false;
-    }, 1000);
+    decreasingTime = setInterval(() => {
+      if (
+        currentHour !== new Date().getHours() ||
+        currentMinute !== new Date().getHours()
+      ) {
+        if (currentHour <= 1) {
+          currentHour = 23;
+        } else if (currentMinute <= 1) {
+          currentHour--;
+          currentMinute = 59;
+        } else {
+          currentMinute--;
+        }
+      } else {
+        setTimeout(() => {
+          clearInterval(decreasingTime);
+          arrowKeyDown = false;
+        }, 100);
+      }
+    }, 10);
   }
 });
 
