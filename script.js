@@ -88,22 +88,25 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   if (e.key === "ArrowUp") {
     decreasingTime = setInterval(() => {
-      if (
-        currentHour !== new Date().getHours() ||
-        currentMinute !== new Date().getHours()
-      ) {
-        if (currentHour <= 1) {
-          currentHour = 23;
-        } else if (currentMinute <= 1) {
-          currentHour--;
-          currentMinute = 59;
+      if (arrowKeyDown) {
+        if (
+          currentHour !== new Date().getHours() ||
+          currentMinute !== new Date().getMinutes()
+        ) {
+          if (currentHour <= 1) {
+            currentHour = 23;
+          } else if (currentMinute <= 1) {
+            currentHour--;
+            currentMinute = 59;
+          } else {
+            currentMinute--;
+          }
         } else {
-          currentMinute--;
+          arrowKeyDown = false;
         }
       } else {
         setTimeout(() => {
           clearInterval(decreasingTime);
-          arrowKeyDown = false;
         }, 100);
       }
     }, 10);
